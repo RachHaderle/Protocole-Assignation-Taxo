@@ -1,3 +1,4 @@
+```
 flowchart TB
 subgraph A[MOLUCULAR SIMILARITY]
     1[Each MOTU is compared to the Genbank via BLAST] --> 2[Is a barcoding gap of at least 2% observed among sequences producing significant alignments ?]
@@ -37,3 +38,4 @@ end
     14 ==> 20[["Assignment to the lowest taxonomic level common to the taxa in the List E"]]
     16 ==> 20
     19 ==> 20
+```

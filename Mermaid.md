@@ -1,4 +1,4 @@
-```
+```mermaid
 flowchart TB
 subgraph A[MOLUCULAR SIMILARITY]
     1[Each MOTU is compared to the Genbank via BLAST] --> 2[Is a barcoding gap of at least 2% observed among sequences producing significant alignments ?]

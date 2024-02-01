@@ -24,41 +24,37 @@ subgraph D[INTEGRATION OF PREVIOUS STAGES]
 
    13 -- Copy the species on list D to create list E --> 14stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
 
-   15 -- Check for the existence of the barcode sequence for this or these species in the Genbank --> 16[The barcode sequence for this or these species can be found in Genbank]
+   15 --- |Check for the existence of the barcode sequence for this or these species in the Genbank| I[ ]:::empty ---> 16[The barcode sequence for this or these species can be found in Genbank] & 19[The barcode sequence for this or these species is not present in Genbank] & 23[The barcode sequence for this or these species is present in Genbank]
+
    16 -- Copy the species on list D to create list E --> 17stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
-   15 -- Check for the existence of the barcode sequence for this or these species in the Genbank --> 19[The barcode sequence for this or these species is not present in Genbank]
    19 -- Check whether the COI sequence for this or these species is available in the Bold database --> 20[The COI sequence for this or these species is not available in the Bold database]
    20 -- Copy the species on list D by adding the missing species (flagging these species with a a index) to create list E --> 21stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
-   15 -- Check for the existence of the barcode sequence for this or these species in the Genbank --> 23[The barcode sequence for this or these species is present in Genbank]
-   23 -- Look at the number of nucleotide differences between these sequences and the COI sequence(s) of the reference species in list D --> 24[COI sequences are not significantly different]
+  
+   23 --- |Look at the number of nucleotide differences between these sequences and the COI sequences of the reference species in list D| J[ ]:::empty ---> 24[COI sequences are not significantly different] & 27[COI sequences are significantly different]
    24 -- Copy the species on list D by adding the missing species (flagging these species with a a index) to create list E --> 25stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
-   23 -- Look at the number of nucleotide differences between these sequences and the COI sequence(s) of the reference species in list D --> 27[COI sequences are significantly different]
    27 -- Copy the species on list D to create list E --> 28stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
 
-   30 -- Find out if there are any species mentioned in the list of species distributed in the study area that are not mentioned in list D --> 31[There are no species known to be studied in the study area]
+   30 --- |Find out if there are any species mentioned in the list of species distributed in the study area that are not mentioned in list D| K[ ]:::empty ---> 31[There are no species known to be studied in the study area] & 34[One or more species known to be distributed in the study area are not mentioned in list D]
    31 -- Copy species in list A with similarity ⩾ 98% (flagging these species with a b index) to create list E --> 32stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
 
-   30 -- Find out if there are any species mentioned in the list of species distributed in the study area that are not mentioned in list D --> 34[One or more species known to be distributed in the study area are not mentioned in list D]
-   34 -- Check for the existence of the barcode sequence for this or these species in the Genbank --> 35[The barcode sequence for this or these species can be found in Genbank]
+   34 --- |Check for the existence of the barcode sequence for this or these species in the Genbank| L[ ]:::empty ---> 35[The barcode sequence for this or these species can be found in Genbank] & 38[The barcode sequence for this or these species is not present in Genbank] & 42[The barcode sequence for this or these species is present in Genbank]
    35 -- Copy species in list A with similarity ⩾ 98% (flagging these species with a b index) to create list E --> 36stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
-   34 -- Check for the existence of the barcode sequence for this or these species in the Genbank --> 38[The barcode sequence for this or these species is not present in Genbank]
    38 -- Check whether the COI sequence for this or these species is available in the Bold database --> 39[The COI sequence for this or these species is not available in the Bold database]
    39 -- Copy species in list A with similarity ⩾ 98% (flagging these species with a b index) to create list E --> 40stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
-   34 -- Check for the existence of the barcode sequence for this or these species in the Genbank --> 42[The barcode sequence for this or these species is present in Genbank]
-   42 -- Look at the number of nucleotide differences between these sequences and the COI sequence(s) of the reference species in list D --> 43[COI sequences are not significantly different]
+   42 --- |Look at the number of nucleotide differences between these sequences and the COI sequences of the reference species in list D| M[ ]:::empty ---> 43[COI sequences are not significantly different] & 46[COI sequences are significantly different]
    43 -- Copy the list of these non significantly different species (flagging these species with a a index) to create the list E  --> 44stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
-   42 -- Look at the number of nucleotide differences between these sequences and the COI sequence(s) of the reference species in list D --> 46[COI sequences are significantly different]
    46 -- Copy species in list A with similarity ⩾ 98% (flagging these species with a b index) to create list E --> 47stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
 
-end
-
-   14stadiumId -- Find and record the lowest taxonomic level common to all the species in the list E --> 15asymmetricId>"`Taxonomic assignment`"]
+  14stadiumId -- Find and record the lowest taxonomic level common to all the species in the list E --> 15asymmetricId>"`Taxonomic assignment`"]
    17stadiumId -- Find and record the lowest taxonomic level common to all the species in the list E --> 18asymmetricId>"`Taxonomic assignment`"]
    21stadiumId -- Find and record the lowest taxonomic level common to all the species in the list E --> 22asymmetricId>"`Taxonomic assignment`"]
    25stadiumId -- Find and record the lowest taxonomic level common to all the species in the list E --> 26asymmetricId>"`Taxonomic assignment`"]
    28stadiumId -- Find and record the lowest taxonomic level common to all the species in the list E --> 29asymmetricId>"`Taxonomic assignment`"]
-   32stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"]) --> 33asymmetricId>"`Taxonomic assignment`"]
-   36stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"]) --> 37asymmetricId>"`Taxonomic assignment`"]
-   40stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"]) --> 41asymmetricId>"`Taxonomic assignment`"]
-   44stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"]) --> 45asymmetricId>"`Taxonomic assignment`"]
-   47stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])--> 48asymmetricId>"`Taxonomic assignment`"]
+   32stadiumId -- Find and record the second lowest taxonomic level common to all species on the E list --> 33asymmetricId>"`Taxonomic assignment`"]
+   36stadiumId -- Find and record the second lowest taxonomic level common to all species on the E list --> 37asymmetricId>"`Taxonomic assignment`"]
+   40stadiumId -- Find and record the second lowest taxonomic level common to all species on the E list --> 41asymmetricId>"`Taxonomic assignment`"]
+   44stadiumId -- Find and record the second lowest taxonomic level common to all species on the E list --> 45asymmetricId>"`Taxonomic assignment`"]
+   47stadiumId -- Find and record the second lowest taxonomic level common to all species on the E list--> 48asymmetricId>"`Taxonomic assignment`"]
+end
+
+ 

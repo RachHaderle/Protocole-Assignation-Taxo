@@ -1,4 +1,30 @@
-10stadiumId -- Select from list C the species that are also cited in list A and have a similarity of ⩾ 98% --> 11stadiumId(["`List D: list of species that are molecularly most similar to MOTU and are known to be distributed in the study area`"])
+flowchart TB
+subgraph A[MOLUCULAR SIMILARITY]
+    1[MOTU sequence] -- The MOTU sequence is compared with the Genbank database using the Blast tool with megablast and 500 target sequences--> 2[The result of the Blast is a list of species]
+    2 --- |Search for a possible barcoding gap among the sequence list resulting from the Blast| E[ ]:::empty ---> 3[Barcoding gap of at least 2%] & 4[No barcoding gap of at least 2%]
+    3 -- All species with a query cover ⩾ 90% are retained until the barcoding gap --> 5stadiumId(["`List A: list of species most molecularly similar to MOTU`"])
+    4 -- All species with query coverage ⩾ 90% are retained until a new genus appears with similarity < maximum similarity minus 2% --> 6stadiumId(["`List A: list of species most molecularly similar to MOTU`"])
+end
+
+subgraph B[TAXONOMIC PANEL]
+    5stadiumId -- For each species on list A, research the taxonomy of the corresponding genus to list all existing species --> 7[List of species based on taxonomy]
+    7 -- Delete from the list of species based on taxonomy the species cited and eliminated on the basis of the Blast result --> 8stadiumId(["`List B: List of possible species for each genus in list A`"])
+
+    6stadiumId -- For each species on list A, research the taxonomy of the corresponding genus to list all existing species --> 107[List of species based on taxonomy]
+    107 -- Delete from the list of species based on taxonomy the species cited and eliminated on the basis of the Blast result --> 108stadiumId(["`List B: List of possible species for each genus in list A`"])
+
+end
+
+subgraph C[DISTRIBUTED TAXA]
+    8stadiumId -- For each species on list B, research its distribution in order to retain all the species whose distribution is known in the study area --> 9[List of species distributed in the study area]
+    9 -- Delete from list B species that are not mentioned in the list of species distributed in the study area. --> 10stadiumId(["`List C: lists the species of each genus from list A that are distributed in the study area`"])
+
+    108stadiumId -- For each species on list B, research its distribution in order to retain all the species whose distribution is known in the study area --> 109[List of species distributed in the study area]
+    109 -- Delete from list B species that are not mentioned in the list of species distributed in the study area. --> 110stadiumId(["`List C: lists the species of each genus from list A that are distributed in the study area`"])
+end
+
+subgraph D[INTEGRATION OF PREVIOUS STAGES]
+   10stadiumId -- Select from list C the species that are also cited in list A and have a similarity of ⩾ 98% --> 11stadiumId(["`List D: list of species that are molecularly most similar to MOTU and are known to be distributed in the study area`"])
 
    11stadiumId --- |Count how many different genera are present in the list D| G[ ]:::empty ---> 12[List D contains one or more genus] & 30[List D contains no genus]
    12 --- |Find out if there are any species mentioned in the list C that are not cited in list D| H[ ]:::empty ---> 13[All the species known to be distributed in the study area are mentioned in list D] & 15[One or more species known to be distributed in the study area are not mentioned in list D]
@@ -36,3 +62,45 @@
    40stadiumId -- Find and record the second lowest taxonomic level common to all species on the E list --> 41asymmetricId>"`Taxonomic assignment`"]
    44stadiumId -- Find and record the second lowest taxonomic level common to all species on the E list --> 45asymmetricId>"`Taxonomic assignment`"]
    47stadiumId -- Find and record the second lowest taxonomic level common to all species on the E list--> 48asymmetricId>"`Taxonomic assignment`"]
+
+   110stadiumId -- Select from list C the species that are also cited in list A and have a similarity of ⩾ 98% --> 111stadiumId(["`List D: list of species that are molecularly most similar to MOTU and are known to be distributed in the study area`"])
+
+   111stadiumId --- |Count how many different genera are present in the list D| Z[ ]:::empty ---> 112[List D contains one or more genus] & 130[List D contains no genus]
+   112 --- |Find out if there are any species mentioned in the list C that are not cited in list D| Y[ ]:::empty ---> 113[All the species known to be distributed in the study area are mentioned in list D] & 115[One or more species known to be distributed in the study area are not mentioned in list D]
+
+   113 -- Copy the species on list D to create list E --> 114stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
+
+   115 --- |Check for the existence of the barcode sequence for this or these species in the Genbank| X[ ]:::empty ---> 116[The barcode sequence for this or these species can be found in Genbank] & 119[The barcode sequence for this or these species is not present in Genbank]
+
+   116 -- Copy the species on list D to create list E --> 117stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
+   119 --- |Check whether the COI sequence for this or these species is available in the Bold database| W[ ]:::empty --->120[The COI sequence for this or these species is not available in the Bold database] & 123[The barcode sequence for this or these species is available in the Bold database]
+   120 -- Copy the species on list D by adding the missing species (flagging these species with a a index) to create list E --> 121stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
+  
+   123 --- |Look at the number of nucleotide differences between these sequences and the COI sequences of the reference species in list D| V[ ]:::empty ---> 124[COI sequences are not significantly different] & 127[COI sequences are significantly different]
+   124 -- Copy the species on list D by adding the missing species (flagging these species with a a index) to create list E --> 125stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
+   127 -- Copy the species on list D to create list E --> 128stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
+
+   130 --- |Find out if there are any species mentioned in the list C that are not cited in list D| U[ ]:::empty ---> 131[There are no species known to be studied in the study area] & 134[One or more species known to be distributed in the study area are not mentioned in list D]
+   131 -- Copy species in list A with similarity ⩾ 98% (flagging these species with a b index) to create list E --> 132stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
+
+   134 --- |Check for the existence of the barcode sequence for this or these species in the Genbank| T[ ]:::empty ---> 135[The barcode sequence for this or these species can be found in Genbank] & 138[The barcode sequence for this or these species is not present in Genbank]
+   135 -- Copy species in list A with similarity ⩾ 98% (flagging these species with a b index) to create list E --> 136stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
+   138 --- |Check whether the COI sequence for this or these species is available in the Bold database| S[ ]:::empty --> 139[The COI sequence for this or these species is not available in the Bold database] & 142[The barcode sequence for this or these species is available in the Bold database]
+   139 -- Copy the missing species (flagging these species with a a index) to create list E --> 140stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
+   142 --- |Look at the number of nucleotide differences between these sequences and the COI sequences of the reference species in list D| R[ ]:::empty ---> 143[COI sequences are not significantly different] & 146[COI sequences are significantly different]
+   143 -- Copy the list of these non significantly different species (flagging these species with a a index) to create the list E  --> 144stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
+   146 -- Copy species in list A with similarity ⩾ 98% (flagging these species with a b index) to create list E --> 147stadiumId(["`List E: list of all hypothetical species assigned to the MOTU`"])
+
+  114stadiumId -- Find and record the lowest taxonomic level common to all the species in the list E --> 115asymmetricId>"`Taxonomic assignment`"]
+   117stadiumId -- Find and record the lowest taxonomic level common to all the species in the list E --> 118asymmetricId>"`Taxonomic assignment`"]
+   121stadiumId -- Find and record the lowest taxonomic level common to all the species in the list E --> 122asymmetricId>"`Taxonomic assignment`"]
+   125stadiumId -- Find and record the lowest taxonomic level common to all the species in the list E --> 126asymmetricId>"`Taxonomic assignment`"]
+   128stadiumId -- Find and record the lowest taxonomic level common to all the species in the list E --> 129asymmetricId>"`Taxonomic assignment`"]
+   132stadiumId -- Find and record the second lowest taxonomic level common to all species on the E list --> 133asymmetricId>"`Taxonomic assignment`"]
+   136stadiumId -- Find and record the second lowest taxonomic level common to all species on the E list --> 137asymmetricId>"`Taxonomic assignment`"]
+   140stadiumId -- Find and record the second lowest taxonomic level common to all species on the E list --> 141asymmetricId>"`Taxonomic assignment`"]
+   144stadiumId -- Find and record the second lowest taxonomic level common to all species on the E list --> 145asymmetricId>"`Taxonomic assignment`"]
+   147stadiumId -- Find and record the second lowest taxonomic level common to all species on the E list--> 148asymmetricId>"`Taxonomic assignment`"]
+end
+
+ 
